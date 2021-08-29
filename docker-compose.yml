@@ -10,13 +10,13 @@ services:
       - 8000:8000
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - portainer_data:/data
+      - ./portainer_data:/data
 
   db:
     image: postgres
     restart: always
     volumes:
-      - db:/var/lib/postgresql/data
+      - ./nextcloud_volume/db:/var/lib/postgresql/data
     environment:
       - POSTGRES_DB_FILE=/run/secrets/postgres_db
       - POSTGRES_USER_FILE=/run/secrets/postgres_user
@@ -27,28 +27,31 @@ services:
       - postgres_user
 
   app:
-    image: nextcloud
+    build: nextcloud
     restart: always
     ports:
       - 8080:80
     volumes:
-      - nextcloud:/var/www/html
+      - ./nextcloud_volume/data:/var/www/nextcloud/data
+      - ./nextcloud_volume/config:/var/www/nextcloud/config
     environment:
-      - POSTGRES_HOST=db
+      - DATADIRECTORY=/var/www/nextcloud/data
+      - FILESYSTEM_CHECK_CHANGES=1
+      - POSTGRES_HOST=db:5432
       - POSTGRES_DB_FILE=/run/secrets/postgres_db
       - POSTGRES_USER_FILE=/run/secrets/postgres_user
       - POSTGRES_PASSWORD_FILE=/run/secrets/postgres_password
       - NEXTCLOUD_ADMIN_PASSWORD_FILE=/run/secrets/nextcloud_admin_password
       - NEXTCLOUD_ADMIN_USER_FILE=/run/secrets/nextcloud_admin_user
-      - NEXTCLOUD_TRUSTED_DOMAINS=172.22.99.125
-      - OBJECTSTORE_S3_HOST=objstor
-      - OBJECTSTORE_S3_BUCKET=nextcloud
-      - OBJECTSTORE_S3_KEY=/run/secrets/minio_user
-      - OBJECTSTORE_S3_SECRET=/run/secrets/minio_password
-      - OBJECTSTORE_S3_PORT=9000
-      - OBJECTSTORE_S3_SSL=false
-      - OBJECTSTORE_S3_REGION=optional
-      - OBJECTSTORE_S3_USEPATH_STYLE=true
+      - NEXTCLOUD_TRUSTED_DOMAINS=localhost
+        #      - OBJECTSTORE_S3_HOST=objstor
+        #      - OBJECTSTORE_S3_BUCKET=nextcloud
+        #      - OBJECTSTORE_S3_KEY=/run/secrets/minio_user
+        #      - OBJECTSTORE_S3_SECRET=/run/secrets/minio_password
+        #      - OBJECTSTORE_S3_PORT=9000
+        #      - OBJECTSTORE_S3_SSL=false
+        #      - OBJECTSTORE_S3_REGION=optional
+        #      - OBJECTSTORE_S3_USEPATH_STYLE=true
     depends_on:
       - db
     secrets:
@@ -60,35 +63,35 @@ services:
       - minio_user
       - minio_password
 
-  objstor:
-    image: minio/minio
-    restart: always
-    ports:
-      - 9000:9000
-    volumes:
-      - ./data1:/data1
-      - ./data2:/data2
-      - ./data3:/data3
-      - ./data4:/data4
-    environment:
-      MINIO_ACCESS_KEY: /run/secrets/minio_user
-      MINIO_SECRET_KEY: /run/secrets/minio_password
-    command: server /data{1...4}
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
-      interval: 30s
-      timeout: 20s
-      retries: 3
-    secrets:
-      - minio_user
-      - minio_password
+        #  objstor:
+        #    image: minio/minio
+        #    restart: always
+        #    ports:
+        #      - 9000:9000
+        #    volumes:
+        #      - ./data1:/data1
+        #      - ./data2:/data2
+        #      - ./data3:/data3
+        #      - ./data4:/data4
+        #    environment:
+        #      MINIO_ACCESS_KEY: /run/secrets/minio_user
+        #      MINIO_SECRET_KEY: /run/secrets/minio_password
+        #    command: server /data{1...4}
+        #    healthcheck:
+        #      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+        #      interval: 30s
+        #      timeout: 20s
+        #      retries: 3
+        #    secrets:
+        #      - minio_user
+        #      - minio_password
 
 
 
-volumes:
-  db:
-  nextcloud:
-  portainer_data:
+        #volumes:
+        #  db:
+        #  nextcloud:
+        #  portainer_data:
 
 secrets:
   nextcloud_admin_password:
