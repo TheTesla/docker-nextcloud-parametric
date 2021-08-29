@@ -16,7 +16,6 @@ while ! pg_isready -d "$(cat $POSTGRES_DB_FILE)"\
 do
   echo "Wait for database!"
   sleep 1
-
 done
 
 
@@ -38,7 +37,6 @@ if test -f "$CONFIGDIR/CAN_INSTALL"; then
   rm $CONFIGDIR/CAN_INSTALL
 fi
 
-#cp /custom.config.php $CONFIGDIR/.
 
 cat > $CONFIGDIR/custom.config.php <<-EOF
 <?php

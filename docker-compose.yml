@@ -1,17 +1,6 @@
 version: '3.2'
 
 services:
-  portainer:
-    image: portainer/portainer
-    command: -H unix:///var/run/docker.sock
-    restart: always
-    ports:
-      - 9001:9000
-      - 8000:8000
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - ./portainer_data:/data
-
   db:
     image: postgres
     restart: always
@@ -44,14 +33,6 @@ services:
       - NEXTCLOUD_ADMIN_PASSWORD_FILE=/run/secrets/nextcloud_admin_password
       - NEXTCLOUD_ADMIN_USER_FILE=/run/secrets/nextcloud_admin_user
       - NEXTCLOUD_TRUSTED_DOMAINS=localhost
-        #      - OBJECTSTORE_S3_HOST=objstor
-        #      - OBJECTSTORE_S3_BUCKET=nextcloud
-        #      - OBJECTSTORE_S3_KEY=/run/secrets/minio_user
-        #      - OBJECTSTORE_S3_SECRET=/run/secrets/minio_password
-        #      - OBJECTSTORE_S3_PORT=9000
-        #      - OBJECTSTORE_S3_SSL=false
-        #      - OBJECTSTORE_S3_REGION=optional
-        #      - OBJECTSTORE_S3_USEPATH_STYLE=true
     depends_on:
       - db
     secrets:
@@ -63,35 +44,6 @@ services:
       - minio_user
       - minio_password
 
-        #  objstor:
-        #    image: minio/minio
-        #    restart: always
-        #    ports:
-        #      - 9000:9000
-        #    volumes:
-        #      - ./data1:/data1
-        #      - ./data2:/data2
-        #      - ./data3:/data3
-        #      - ./data4:/data4
-        #    environment:
-        #      MINIO_ACCESS_KEY: /run/secrets/minio_user
-        #      MINIO_SECRET_KEY: /run/secrets/minio_password
-        #    command: server /data{1...4}
-        #    healthcheck:
-        #      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
-        #      interval: 30s
-        #      timeout: 20s
-        #      retries: 3
-        #    secrets:
-        #      - minio_user
-        #      - minio_password
-
-
-
-        #volumes:
-        #  db:
-        #  nextcloud:
-        #  portainer_data:
 
 secrets:
   nextcloud_admin_password:
