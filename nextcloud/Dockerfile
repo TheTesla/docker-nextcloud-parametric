@@ -18,14 +18,11 @@ RUN a2enmod rewrite headers env dir mime
 
 COPY entrypoint.sh /
 
-COPY custom.config.php /
-
 RUN chmod 0777 /entrypoint.sh
 
 RUN apt update && apt install -y postgresql-client-12
 
 
-#USER www-data
 
 EXPOSE 80
 CMD /entrypoint.sh
