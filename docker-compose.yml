@@ -47,10 +47,10 @@ services:
     build: nextcloud
     restart: always
     volumes:
-      - ./nextcloud_volume/data:/var/www/nextcloud/data
+      - ./nextcloud_volume/data:/data
       - ./nextcloud_volume/config:/var/www/nextcloud/config
     environment:
-      - DATADIRECTORY=/var/www/nextcloud/data
+      - DATADIRECTORY=/data
       - FILESYSTEM_CHECK_CHANGES=1
       - POSTGRES_HOST=db:5432
       - POSTGRES_DB_FILE=/run/secrets/postgres_db
