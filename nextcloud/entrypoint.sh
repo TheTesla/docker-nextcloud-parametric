@@ -49,6 +49,7 @@ cat > $CONFIGDIR/custom.config.php <<-EOF
   'dbuser' => '$(cat $POSTGRES_USER_FILE)',
   'dbpassword' => '$(cat $POSTGRES_PASSWORD_FILE)',
   'filesystem_check_changes' => '$FILESYSTEM_CHECK_CHANGES',
+  'overwriteprotocol' => 'https',
 );
 EOF
 
