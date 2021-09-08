@@ -33,7 +33,8 @@ if test -f "$CONFIGDIR/CAN_INSTALL"; then
 	  --database-user "$(cat $POSTGRES_USER_FILE)" \
 	  --database-pass "$(cat $POSTGRES_PASSWORD_FILE)" \
 	  --admin-user "$(cat $NEXTCLOUD_ADMIN_USER_FILE)" \
-	  --admin-pass "$(cat $NEXTCLOUD_ADMIN_PASSWORD_FILE)"
+	  --admin-pass "$(cat $NEXTCLOUD_ADMIN_PASSWORD_FILE)" \
+	  --data-dir $DATADIRECTORY
   rm $CONFIGDIR/CAN_INSTALL
 fi
 
