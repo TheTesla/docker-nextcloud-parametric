@@ -2,7 +2,7 @@
 
 CONFIGDIR=/var/www/nextcloud/config
 
-
+echo "$DATADIRECTORY"
 
 chown www-data:www-data -R $DATADIRECTORY $CONFIGDIR
 
