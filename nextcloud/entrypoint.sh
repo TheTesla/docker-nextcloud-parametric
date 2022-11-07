@@ -1,6 +1,7 @@
 #!/bin/bash
 
 CONFIGDIR=/var/www/nextcloud/config
+phpmemory_limit=2G
 
 echo "$DATADIRECTORY"
 
@@ -55,6 +56,8 @@ EOF
 
 
 chown www-data:www-data -R $CONFIGDIR 
+
+sed -i 's/memory_limit = .*/memory_limit = '${phpmemory_limit}'/' /etc/php/7.4/apache2/php.ini
 
 apachectl -D FOREGROUND
 
