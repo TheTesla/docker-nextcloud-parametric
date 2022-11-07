@@ -6,7 +6,7 @@ RUN apt update && apt install -y apache2 libapache2-mod-php7.4 php7.4-gd php7.4-
 
 RUN apt update && apt install -y wget unzip sudo postgresql-client-common
 
-RUN wget -c https://download.nextcloud.com/server/releases/nextcloud-22.1.0.zip && unzip nextcloud-22.1.0.zip && cp -rf nextcloud /var/www/
+RUN wget -c https://download.nextcloud.com/server/releases/nextcloud-25.0.1.zip && unzip nextcloud-25.0.1.zip && cp -rf nextcloud /var/www/
 
 RUN chown www-data:www-data -R /var/www
 
